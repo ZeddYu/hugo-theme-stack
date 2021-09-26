@@ -15,11 +15,11 @@
         </a>
     </h2>
 
-    <!-- {{ with .Summary }}
+    {{ with .Summary }}
     <h3 class="article-subtitle">
         {{ . | safeHTML}}
     </h3>
-    {{ end }} -->
+    {{ end }}
 
     {{ if or (not .Date.IsZero) (.Site.Params.article.readingTime) }}
     <footer class="article-time">
@@ -40,6 +40,9 @@
                 </time>
             </div>
         {{ end }}
+        <div>
+            <a href="{{ .RelPermalink }}">Read More…</a>
+        </div>
     </footer>
     {{ end }}
 </div>
