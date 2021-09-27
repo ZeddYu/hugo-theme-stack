@@ -30,7 +30,30 @@
             {{ end }}
         {{ end }}
         <h1 class="site-name"><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a></h1>
-        <h2 class="site-description">{{ .Site.Params.sidebar.subtitle }}</h2>
+        <!-- <h2 class="site-description">{{ .Site.Params.sidebar.subtitle }}</h2> -->
+        <div class="site-description">
+            {{ if (.Site.Params.social.github) }}
+            <a title="GitHub" href="{{.Site.Params.social.github}}" target="_blank" rel="noopener">
+                {{ partial "helper/icon" "github" }}
+            </a>
+            {{ end }}
+
+            {{ if (.Site.Params.social.twitter) }}
+            <a title="Twitter" href="{{.Site.Params.social.twitter}}" target="_blank" rel="noopener">
+                {{ partial "helper/icon" "twitter" }}
+            </a>
+            {{ end }}
+
+            {{ if (.Site.Params.social.rss) }}
+            <a title="RSS" href="{{.Site.Params.social.rss}}" target="_blank" rel="noopener">
+                {{ partial "helper/icon" "rss" }}
+            </a>
+            {{ end }}
+            
+            <!-- <a class="navbar-item" title="GitHub" href="https://github.com/ZeddYu" target="_blank" rel="noopener">
+            </a> -->
+        </div>
+        
     </header>
 
     <ol class="menu" id="main-menu">
