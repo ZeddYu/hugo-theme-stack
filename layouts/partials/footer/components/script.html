@@ -1,6 +1,9 @@
 {{- partial "helper/external" (dict "Context" . "Namespace" "Vibrant") -}}
 
-{{- $opts := dict "minify" hugo.IsProduction -}}
-{{- $script := resources.Get "ts/main.ts" | js.Build $opts -}}
-
-<script type="text/javascript" src="{{ $script.RelPermalink }}" defer></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js');
+        });
+    }
+</script>
