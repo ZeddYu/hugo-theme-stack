@@ -22,10 +22,5 @@
     <link rel="shortcut icon" href="{{ . }}" />
 {{ end }}
 
-{{- $opts := dict "minify" hugo.IsProduction -}}
-{{- $script := resources.Get "ts/main.ts" | js.Build $opts -}}
-
-<script type="text/javascript" src="{{ $script.RelPermalink }}" defer></script>
-
 {{- template "_internal/google_analytics.html" . -}}
 {{- partial "head/custom.html" . -}}
