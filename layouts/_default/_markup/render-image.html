@@ -33,7 +33,11 @@
 			flex-basis: {{ div (mul $image.Width 240) $image.Height }}px"
 	{{ end }}>
 	<a href="{{ $Permalink }}" {{ if $galleryImage }}data-size="{{ $image.Width }}x{{ $image.Height }}"{{ end }}>
+		{{- if $image -}}
 		<img src="https://cdn.jsdelivr.net/gh/ZeddYu/ZeddYu.github.io@master/{{ $Permalink| relURL }}"
+		{{- else -}}
+		<img src="{{ $Permalink }}"
+		{{- end -}}
 			{{ with $Width }}width="{{ . }}"{{ end }}
 			{{ with $Height }}height="{{ . }}"{{ end }}
 			{{ with $Srcset }}srcset="{{ . }}"{{ end }}
