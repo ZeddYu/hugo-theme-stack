@@ -15,12 +15,6 @@
         </a>
     </h2>
 
-    <!-- {{ with .Summary }}
-    <h3 class="article-subtitle">
-        {{ . | safeHTML}}
-    </h3>
-    {{ end }} -->
-
     {{ if or (not .Date.IsZero) (.Site.Params.article.readingTime) }}
     <footer class="article-time">
         {{ if not .Date.IsZero }}
