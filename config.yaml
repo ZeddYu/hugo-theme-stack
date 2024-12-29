@@ -2,6 +2,9 @@ module:
     hugoVersion:
         extended: true
         min: "0.87.0"
+    proxy: https://goproxy.cn
+    imports:
+    - path: github.com/martignoni/hugo-notice
 
 params:
     mainSections:
@@ -147,3 +150,8 @@ params:
             enabled: true
         content:
             enabled: true
+
+outputFormats:
+    RSS:
+        mediatype: "application/rss"
+        baseName: "atom"

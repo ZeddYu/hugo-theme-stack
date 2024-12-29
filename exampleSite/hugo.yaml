@@ -10,7 +10,7 @@ DefaultContentLanguage: en
 
 # Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
 # This will make .Summary and .WordCount behave correctly for CJK languages.
-hasCJKLanguage: false
+hasCJKLanguage: true
 
 languages:
     en:
@@ -20,21 +20,13 @@ languages:
         params:
             sidebar:
                 subtitle: Example description
-    zh-cn:
-        languageName: 中文
-        title: 演示站点
-        weight: 2
-        params:
-            sidebar:
-                subtitle: 演示说明
-    ar:
-        languageName: عربي
-        languagedirection: rtl
-        title: موقع تجريبي
-        weight: 3
-        params:
-            sidebar:
-                subtitle: وصف تجريبي
+    # zh-cn:
+    #     languageName: 中文
+    #     title: 演示站点
+    #     weight: 2
+    #     params:
+    #         sidebar:
+    #             subtitle: 演示说明
 
 services:
     # Change it to your Disqus shortname before using
@@ -55,7 +47,7 @@ params:
     mainSections:
         - post
     featuredImageField: image
-    rssFullContent: true
+    rssFullContent: false
     favicon: # e.g.: favicon placed in `static/favicon.ico` of your site folder, then set this field to `/favicon.ico` (`/` is necessary)
 
     footer:
@@ -67,7 +59,7 @@ params:
         lastUpdated: Jan 02, 2006 15:04 MST
 
     sidebar:
-        emoji: 🍥
+        emoji: 
         subtitle: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         avatar:
             enabled: true
@@ -226,6 +218,12 @@ menu:
           url: https://twitter.com
           params:
               icon: brand-twitter
+              
+        - identifier: rss
+          name: RSS
+          url: https://twitter.com
+          params:
+              icon: rss
 
 related:
     includeNewer: true
@@ -267,3 +265,8 @@ markup:
         lineNos: true
         lineNumbersInTable: true
         tabWidth: 4
+
+module:
+    proxy: https://goproxy.cn
+    imports:
+    - path: github.com/martignoni/hugo-notice
