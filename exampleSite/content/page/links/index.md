@@ -1,10 +1,6 @@
 ---
 title: Links
-links:
-  - title: Rex
-    description: 
-    website: https://www.rexskz.info/
-    image: 
+description: Some friends
 menu:
     main: 
         weight: -50
