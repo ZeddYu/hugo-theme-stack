@@ -20,7 +20,7 @@
                 </span>Tip
             </p>
             {{ range .Site.Params.article.footer.ad }}
-            <p>{{ . | $.Page.RenderString}}</p><br>
+            <p>{{ . | $.Page.RenderString}}</p>
             {{ end }}
         </div>
         {{end}}
