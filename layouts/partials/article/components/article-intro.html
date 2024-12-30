@@ -19,16 +19,10 @@
 
         {{ if .Params.description }}
         {{ with .Params.description }}
-        <h3 class="article-subtitle">
-            {{ . | safeHTML }}
-        </h3>
-        {{ end }}
-        {{ else }}
-        {{ with .Summary }}
         <div class="article-subtitle">
-            {{ . | safeHTML}}
+            {{ . | safeHTML }}
         </div>
-        {{end}}
+        {{ end }}
         {{ end }}
 
 
