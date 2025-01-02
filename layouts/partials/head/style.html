@@ -1,7 +1,7 @@
 {{ $sass := resources.Get "scss/style.scss" }}
 {{ $style := $sass | toCSS | minify | resources.Fingerprint "sha256" }}
 
-{{ if .Site.Params.cdn.github}}
+{{ if .Site.Params.cdn.github }}
 <link rel="stylesheet" href="{{ printf "%s/%s" .Site.Params.cdn.github $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
 {{ else }}
 <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">>

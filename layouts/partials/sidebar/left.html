@@ -17,8 +17,14 @@
                     
                     {{ if $avatar }}
                         {{ $avatarResized := $avatar.Resize "300x" }}
-                        <img src="{{ $avatarResized.RelPermalink }}" width="{{ $avatarResized.Width }}"
+                        {{ if $.Site.Params.cdn.github }}
+                            <img src="{{ printf "%s%s" $.Site.Params.cdn.github $avatarResized.RelPermalink }}" width="{{ $avatarResized.Width }}"
                             height="{{ $avatarResized.Height }}" class="site-logo" loading="lazy" alt="Avatar">
+                        {{ else }}
+                            <img src="{{ $avatarResized.RelPermalink }}" width="{{ $avatarResized.Width }}"
+                                height="{{ $avatarResized.Height }}" class="site-logo" loading="lazy" alt="Avatar">
+                        {{ end }}
+                        
                     {{ else }}
                         {{ errorf "Failed loading avatar from %q" . }}
                     {{ end }}

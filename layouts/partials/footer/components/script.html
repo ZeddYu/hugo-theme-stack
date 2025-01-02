@@ -4,11 +4,11 @@
 {{- $script := resources.Get "ts/main.ts" | js.Build $opts | fingerprint -}}
 
 
-{{ if .Site.Params.cdn.github}}
-        <script type="text/javascript" src="{{ printf "%s/%s" .Site.Params.cdn.github $script.RelPermalink }}" defer integrity="{{ $script.Data.Integrity}}" crossorigin="anonymous"></script>
-    {{ else }}
-        <script type="text/javascript" src="{{ $script.RelPermalink }}" defer integrity="{{ $script.Data.Integrity}}"></script>
-    {{ end }}
+{{ if .Site.Params.cdn.github }}
+    <script type="text/javascript" src="{{ printf "%s/%s" .Site.Params.cdn.github $script.RelPermalink }}" defer integrity="{{ $script.Data.Integrity}}" crossorigin="anonymous"></script>
+{{ else }}
+    <script type="text/javascript" src="{{ $script.RelPermalink }}" defer integrity="{{ $script.Data.Integrity}}"></script>
+{{ end }}
 
 {{- with resources.Get "ts/custom.ts" -}}
     {{/* Place your custom script in HUGO_SITE_FOLDER/assets/ts/custom.ts */}}
