@@ -8,12 +8,20 @@
 {{/* SVG and external images won't work with gallery layout, because their width and height attributes are unknown */}}
 {{- $galleryImage := false -}}
 
+
+{{ printf "Permalink before if: %s" $Permalink }}
+
 {{- if $image -}}
 	{{- $notSVG := ne (path.Ext .Destination) ".svg" -}}
 	
-	{{- $Permalink = "https://cdn.jsdelivr.net/gh/ZeddYu/ZeddYu.github.io@master/{{ $Permalink| relURL }}" -}}
+	{{ if .Page.Site.Params.cdn.github }}
+		{{- $Permalink = printf "%s/%s" .Page.Site.Params.cdn.github $image.RelPermalink -}}
+	{{ else }}
+		{{- $Permalink = $image.RelPermalink -}}
+	{{ end }}
 	
-	<!-- {{- $Permalink = $image.RelPermalink -}} -->
+	
+	{{ printf "Permalink after reassignment: %s" $Permalink }}
 
 	{{- if $notSVG -}}
 		{{- $Width = $image.Width -}}
@@ -23,7 +31,11 @@
 		{{- if (default true .Page.Site.Params.imageProcessing.content.enabled) -}}
 			{{- $small := $image.Resize `480x` -}}
 			{{- $big := $image.Resize `1024x` -}}
+			{{ if .Page.Site.Params.cdn.github }}
+			{{- $Srcset = printf `%s/%s 480w, %s/%s 1024w` .Page.Site.Params.cdn.github $small.RelPermalink .Page.Site.Params.cdn.github $big.RelPermalink -}}
+			{{ else }}
 			{{- $Srcset = printf `%s 480w, %s 1024w` $small.RelPermalink $big.RelPermalink -}}
+			{{ end }}
 		{{- end -}}
 	{{- end -}}
 {{- end -}}
