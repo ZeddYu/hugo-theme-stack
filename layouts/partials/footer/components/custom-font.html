@@ -1,11 +1,7 @@
 <script>
     (function () {
         const customFont = document.createElement('link');
-        {{ if .Site.Params.cdn.google_fonts }}
-        customFont.href = {{ printf "%s/%s" .Site.Params.cdn.google_fonts "fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" }};
-        {{ else }}
         customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
-        {{ end }}
 
         customFont.type = "text/css";
         customFont.rel = "stylesheet";
