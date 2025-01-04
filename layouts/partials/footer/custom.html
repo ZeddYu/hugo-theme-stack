@@ -12,20 +12,58 @@
     }
 </script>
 
+<script>
+    // 检查网络环境
+    function checkNetworkEnvironment() {
+        if (navigator.connection) {
+            const connection = navigator.connection;
 
-<script type="speculationrules">
-{
-        "prefetch": [
-            {
-                "source": "document",
-                "eagerness": "moderate"
+            // 判断网络质量
+            const isGoodNetwork =
+                connection.effectiveType === '4g' && connection.downlink > 5;
+
+            if (isGoodNetwork) {
+                console.log('Network is good, adding speculation rules');
+
+                // 定义推测规则
+                const rules = {
+                    prefetch: [
+                        {
+                            source: 'document',
+                            eagerness: 'conservative',
+                        },
+                    ],
+                    prerender: [
+                        {
+                            where: {
+                                or: [
+                                    { href_matches: '/' },
+                                    { href_matches: '/archives/' },
+                                    { href_matches: '/ads/' },
+                                    { href_matches: '/categories/' },
+                                    { href_matches: '/links/' },
+                                    { href_matches: '/search/' },
+                                    { href_matches: '/about/' },
+                                ],
+                            },
+                            eagerness: 'eager',
+                        },
+                    ],
+                };
+
+                const script = document.createElement('script');
+                script.type = 'speculationrules';
+                script.textContent = JSON.stringify(rules);
+
+                document.body.appendChild(script);
+
+                console.log('Speculation rules added:', rules);
+            } else {
+                console.log('Network is poor, skipping speculation rules');
             }
-        ],
-        "prerender": [
-            {
-                "urls": ["/about", "/archives", "/ads", "/categories", "/links", "/search"],
-                "eagerness": "eager"
-            }
-        ]
+        } else {
+            console.log('Network Information API not supported');
+        }
     }
+    window.addEventListener('load', checkNetworkEnvironment);
 </script>

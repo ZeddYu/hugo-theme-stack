@@ -23,6 +23,20 @@ if (workbox) {
         })
     );
 
+	workbox.routing.registerRoute(
+        new RegExp('https://cdn.jsdelivr.net/.*\.(?:css|js)'),
+        new workbox.strategies.StaleWhileRevalidate({
+            cacheName: "static-resources",
+        })
+    );
+
+	workbox.routing.registerRoute(
+        new RegExp('https://cdn.jsdmirror.com/.*\.(?:css|js)'),
+        new workbox.strategies.StaleWhileRevalidate({
+            cacheName: "static-resources",
+        })
+    );
+
     workbox.routing.registerRoute(
         new RegExp(CDN_DOMAIN + '.*\.(?:png|jpg|jpeg|svg|gif|webp)'),
         new workbox.strategies.CacheFirst({
