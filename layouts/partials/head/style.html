@@ -6,5 +6,5 @@
 {{ if .Site.Params.cdn.github }}
 <link rel="stylesheet" href="{{ printf "%s/%s" .Site.Params.cdn.github $styleWithoutHash.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
 {{ else }}
-<link rel="stylesheet" href="{{ $styleWithoutHash.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">>
+<link rel="stylesheet" href="{{ $styleWithoutHash.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
 {{ end }}

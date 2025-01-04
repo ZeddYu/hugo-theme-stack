@@ -1,13 +1,31 @@
 {{ $swJs := resources.Get "js/sw.js" | js.Build "sw.js" | minify }}
 <script>
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            
-            navigator.serviceWorker.register('{{$swJs.Permalink}}').then(function(registration) {
+        window.addEventListener('load', function () {
+
+            navigator.serviceWorker.register('{{$swJs.Permalink}}').then(function (registration) {
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }, function(err) {
+            }, function (err) {
                 console.log('ServiceWorker registration failed: ', err);
             });
         });
+    }
+</script>
+
+
+<script type="speculationrules">
+    {
+        "prefetch": [
+            {
+                "source": "document",
+                "eagerness": ""moderate",
+            }
+        ],
+        "prerender": [
+            {
+                "urls": ["/about", "/archives", "/ads", "/categories", "/links", "/search"],
+                "eagerness": "eager"
+            }
+        ]
     }
 </script>

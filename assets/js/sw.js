@@ -2,6 +2,8 @@ importScripts(
     "https://cdn.jsdelivr.net/npm/workbox-sw@7.3.0/build/workbox-sw.min.js"
 );
 
+CDN_DOMAIN = "https://cdn.zdy.one/"
+
 if (workbox) {
     console.log(`Yay! Workbox is loaded 🎉`);
 
@@ -12,19 +14,17 @@ if (workbox) {
     workbox.precaching.precacheAndRoute([
         { url: "/", revision: "1" },
         { url: "/index.html", revision: "1" },
-		{ url: '/scss/style.min.css', revision: '1' },
-		{ url: '/ts/main.js', revision: '1' },
     ]);
 
     workbox.routing.registerRoute(
-        /\.(?:js|css)$/,
+        new RegExp(CDN_DOMAIN + '.*\.(?:css|js)'),
         new workbox.strategies.StaleWhileRevalidate({
             cacheName: "static-resources",
         })
     );
 
     workbox.routing.registerRoute(
-        /\.(?:png|jpg|jpeg|svg|gif)$/,
+        new RegExp(CDN_DOMAIN + '.*\.(?:png|jpg|jpeg|svg|gif|webp)'),
         new workbox.strategies.CacheFirst({
             cacheName: "image-cache",
             plugins: [
