@@ -9,8 +9,6 @@
 {{- $galleryImage := false -}}
 
 
-{{ printf "Permalink before if: %s" $Permalink }}
-
 {{- if $image -}}
 	{{- $notSVG := ne (path.Ext .Destination) ".svg" -}}
 	
@@ -19,9 +17,6 @@
 	{{ else }}
 		{{- $Permalink = $image.RelPermalink -}}
 	{{ end }}
-	
-	
-	{{ printf "Permalink after reassignment: %s" $Permalink }}
 
 	{{- if $notSVG -}}
 		{{- $Width = $image.Width -}}
