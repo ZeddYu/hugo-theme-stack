@@ -64,7 +64,15 @@ if (workbox) {
     );
 
     workbox.routing.registerRoute(
-        new RegExp("https://fonts.(?:googleapis|gstatic).com/(.*)"),
+        ({ url }) => url.origin === "https://fonts.googleapis.com",
+        new workbox.strategies.StaleWhileRevalidate({
+            cacheName: "google-fonts-stylesheets",
+        })
+    );
+
+    // Cache the underlying font files with a cache-first strategy for 1 year.
+    workbox.routing.registerRoute(
+        ({ url }) => url.origin === "https://fonts.gstatic.com",
         new workbox.strategies.CacheFirst({
             cacheName: "google-fonts-webfonts",
             plugins: [
