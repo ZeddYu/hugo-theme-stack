@@ -1,8 +1,21 @@
-importScripts(
-    "https://cdn.jsdelivr.net/npm/workbox-sw@7.3.0/build/workbox-sw.min.js"
-);
+try {
+    importScripts(
+        "https://cdn.jsdelivr.net/npm/workbox-sw@7.3.0/build/workbox-sw.min.js"
+    );
+} catch (error) {
+    console.error(
+        "Failed to load workbox-sw from jsDelivr, trying alternative CDN..."
+    );
+    try {
+        importScripts(
+            "https://cdn.jsdmirror.com/workbox-sw@7.3.0/build/workbox-sw.min.js"
+        );
+    } catch (error) {
+        console.error("Both failed.");
+    }
+}
 
-CDN_DOMAIN = "https://cdn.zdy.one/"
+CDN_DOMAIN = "https://cdn.zdy.one/";
 
 if (workbox) {
     console.log(`Yay! Workbox is loaded 🎉`);
@@ -17,28 +30,28 @@ if (workbox) {
     ]);
 
     workbox.routing.registerRoute(
-        new RegExp(CDN_DOMAIN + '.*\.(?:css|js)'),
-        new workbox.strategies.StaleWhileRevalidate({
-            cacheName: "static-resources",
-        })
-    );
-
-	workbox.routing.registerRoute(
-        new RegExp('https://cdn.jsdelivr.net/.*\.(?:css|js)'),
-        new workbox.strategies.StaleWhileRevalidate({
-            cacheName: "static-resources",
-        })
-    );
-
-	workbox.routing.registerRoute(
-        new RegExp('https://cdn.jsdmirror.com/.*\.(?:css|js)'),
+        new RegExp(CDN_DOMAIN + ".*.(?:css|js)"),
         new workbox.strategies.StaleWhileRevalidate({
             cacheName: "static-resources",
         })
     );
 
     workbox.routing.registerRoute(
-        new RegExp(CDN_DOMAIN + '.*\.(?:png|jpg|jpeg|svg|gif|webp)'),
+        new RegExp("https://cdn.jsdelivr.net/.*.(?:css|js)"),
+        new workbox.strategies.StaleWhileRevalidate({
+            cacheName: "static-resources",
+        })
+    );
+
+    workbox.routing.registerRoute(
+        new RegExp("https://cdn.jsdmirror.com/.*.(?:css|js)"),
+        new workbox.strategies.StaleWhileRevalidate({
+            cacheName: "static-resources",
+        })
+    );
+
+    workbox.routing.registerRoute(
+        new RegExp(CDN_DOMAIN + ".*.(?:png|jpg|jpeg|svg|gif|webp)"),
         new workbox.strategies.CacheFirst({
             cacheName: "image-cache",
             plugins: [
@@ -65,7 +78,6 @@ if (workbox) {
             ],
         })
     );
-
 } else {
     console.log(`Boo! Workbox didn't load 😬`);
 }
