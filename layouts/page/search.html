@@ -27,11 +27,12 @@
 
 {{- $opts := dict "minify" hugo.IsProduction "JSXFactory" "createElement" -}}
 {{- $searchScript := resources.Get "ts/search.tsx" | js.Build $opts | fingerprint -}}
+{{- $searchScriptWithoutHash := resources.Get "ts/search.tsx" | js.Build $opts | fingerprint -}}
 
 {{ if .Site.Params.cdn.github}}
-    <script type="text/javascript" src="{{ printf "%s/%s" .Site.Params.cdn.github $searchScript.RelPermalink }}" defer integrity="{{ $searchScript.Data.Integrity}}" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ printf "%s/%s" .Site.Params.cdn.github $searchScriptWithoutHash.RelPermalink }}" defer integrity="{{ $searchScript.Data.Integrity}}" crossorigin="anonymous"></script>
 {{ else }}
-    <script type="text/javascript" src="{{ $searchScript.RelPermalink }}" defer integrity="{{ $searchScript.Data.Integrity}}"></script>
+    <script type="text/javascript" src="{{ $searchScriptWithoutHash.RelPermalink }}" defer integrity="{{ $searchScript.Data.Integrity}}"></script>
 {{ end }}
 
 {{ partialCached "footer/footer" . }}

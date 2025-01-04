@@ -1,4 +1,4 @@
-{{ $swJs := resources.Get "js/sw.js" | js.Build "sw.js" | minify | fingerprint }}
+{{ $swJs := resources.Get "js/sw.js" | js.Build "sw.js" | minify }}
 <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
