@@ -12,6 +12,8 @@
     }
 </script>
 
+<script src="https://cdn.zdy.one/npm/quicklink@2.3.0/dist/quicklink.umd.js" defer integrity="sha256-yvJQOINiH9fWemHn0vCA5lsHWJaHs6/ZmO+1Ft04SvM=" crossorigin="anonymous"></script>
+
 <script>
     // 检查网络环境
     function checkNetworkEnvironment() {
@@ -23,40 +25,7 @@
                 connection.effectiveType === '4g' && connection.downlink > 5;
 
             if (isGoodNetwork) {
-                console.log('Network is good, adding speculation rules');
-
-                const rules = {
-                    prefetch: [
-                        {
-                            source: 'document',
-                            eagerness: 'conservative',
-                        },
-                    ],
-                    prerender: [
-                        {
-                            where: {
-                                or: [
-                                    { href_matches: '/' },
-                                    { href_matches: '/archives/' },
-                                    { href_matches: '/ads/' },
-                                    { href_matches: '/categories/' },
-                                    { href_matches: '/links/' },
-                                    { href_matches: '/search/' },
-                                    { href_matches: '/about/' },
-                                ],
-                            },
-                            eagerness: 'eager',
-                        },
-                    ],
-                };
-
-                const script = document.createElement('script');
-                script.type = 'speculationrules';
-                script.textContent = JSON.stringify(rules);
-
-                document.body.appendChild(script);
-
-                console.log('Speculation rules added:', rules);
+                quicklink.listen();
             } else {
                 console.log('Network is poor, skipping speculation rules');
             }

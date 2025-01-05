@@ -15,8 +15,6 @@ try {
     }
 }
 
-CDN_DOMAIN = "https://cdn.zdy.one/";
-
 if (workbox) {
     console.log(`Yay! Workbox is loaded 🎉`);
 
@@ -27,37 +25,51 @@ if (workbox) {
     workbox.precaching.precacheAndRoute([
         { url: "/", revision: "1" },
         { url: "/index.html", revision: "1" },
+        { url: "/about", revision: "1" },
     ]);
 
     workbox.routing.registerRoute(
-        new RegExp(CDN_DOMAIN + ".*.(?:css|js)"),
-        new workbox.strategies.StaleWhileRevalidate({
-            cacheName: "static-resources",
-        })
-    );
-
-    workbox.routing.registerRoute(
-        new RegExp("https://cdn.jsdelivr.net/.*.(?:css|js)"),
-        new workbox.strategies.StaleWhileRevalidate({
-            cacheName: "static-resources",
-        })
-    );
-
-    workbox.routing.registerRoute(
-        new RegExp("https://cdn.jsdmirror.com/.*.(?:css|js)"),
-        new workbox.strategies.StaleWhileRevalidate({
-            cacheName: "static-resources",
-        })
-    );
-
-    workbox.routing.registerRoute(
-        new RegExp(CDN_DOMAIN + ".*.(?:png|jpg|jpeg|svg|gif|webp)"),
-        new workbox.strategies.CacheFirst({
-            cacheName: "image-cache",
+        ({ request }) => request.mode === "navigate",
+        new workbox.strategies.NetworkFirst({
+            networkTimeoutSeconds: 3,
+            cacheName: "pages",
             plugins: [
+                new workbox.cacheableResponse.CacheableResponsePlugin({
+                    statuses: [0, 200],
+                }),
+            ],
+        })
+    );
+
+    workbox.routing.registerRoute(
+        ({ request }) =>
+            // CSS
+            request.destination === "style" ||
+            // JavaScript
+            request.destination === "script" ||
+            // Web Workers
+            request.destination === "worker",
+        new workbox.strategies.StaleWhileRevalidate({
+            cacheName: "static-resources",
+            plugins: [
+                new workbox.cacheableResponse.CacheableResponsePlugin({
+                    statuses: [0, 200],
+                }),
+            ],
+        })
+    );
+
+    workbox.routing.registerRoute(
+        ({ request }) => request.destination === "image",
+        new workbox.strategies.CacheFirst({
+            cacheName: "images",
+            plugins: [
+                new workbox.cacheableResponse.CacheableResponsePlugin({
+                    statuses: [0, 200],
+                }),
                 new workbox.expiration.ExpirationPlugin({
-                    maxEntries: 20,
-                    maxAgeSeconds: 7 * 24 * 60 * 60,
+                    maxEntries: 60,
+                    maxAgeSeconds: 30 * 24 * 60 * 60,
                 }),
             ],
         })
