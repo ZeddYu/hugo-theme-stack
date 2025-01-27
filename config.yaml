@@ -13,6 +13,9 @@ params:
     rssFullContent: true
     favicon:
 
+    cdn:
+        # github: https://cdn.zdy.world/gh/zeddyu/zeddyu.github.io/
+
     footer:
         since:
         customText:
@@ -38,6 +41,11 @@ params:
         license:
             enabled: false
             default: Licensed under CC BY-NC-SA 4.0
+        footer:
+            ad:
+                - 'I am looking for some guys who have a strong interest in CTFs to build a team focused on international CTFs that are on the ctftime.org, if anyone is interested in this idea you can take a look at here: [Advertisements](https://blog.zeddyu.info/advertisement/#international-ctf-team)'
+                - "想了解更多有意思的国际赛 CTF 中 Web 知识技巧，欢迎加入我的 [知识星球](https://blog.zeddyu.info/advertisement/#知识星球) ; 另外我正在召集一群小伙伴组建一支专注国际 CTF 的队伍，如果有感兴趣的小伙伴也可在 [International CTF Team](https://blog.zeddyu.info/advertisement/#international-ctf-team) 查看详情"
+
 
     comments:
         enabled: false
