@@ -27,7 +27,7 @@
     {{ if not (in (slice "https" "http") $url.Scheme) }}
         {{/* Local image */}}
         {{ $resource = .Resources.Get (printf "%s" (.Image | safeURL)) }}
-    {{ else }}
+    {{ else if ne .Context.Site.Params.imageProcessing.external.enabled false }}
         {{/* Remote image */}}
         {{ with try (resources.GetRemote $url (dict "timeout" .Context.Site.Params.imageProcessing.external.timeout)) }}
             {{ with .Err }}

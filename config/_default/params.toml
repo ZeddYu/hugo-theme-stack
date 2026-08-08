@@ -78,6 +78,7 @@ SortBy         = "default"
     autoOrient = false
 
     [imageProcessing.external]
+        enabled = true
         timeout = "5s"
 
     [imageProcessing.content]
