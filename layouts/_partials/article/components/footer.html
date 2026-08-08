@@ -8,6 +8,8 @@
     </section>
     {{ end }}
 
+    {{ partial "custom/article-footer.html" . }}
+
     {{- if ne .Lastmod .Date -}}
     <section class="article-lastmod inline-meta">
         {{ partial "helper/icon" "clock" }}
