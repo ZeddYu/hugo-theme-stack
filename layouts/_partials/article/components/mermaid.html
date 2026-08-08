@@ -19,6 +19,7 @@
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 {{- $opts := dict "minify" hugo.IsProduction "format" "esm" -}}
 {{- $script := resources.Get "ts/mermaid.ts" | js.Build $opts -}}
+{{- $scriptURL := partial "helper/cdn-url" $script.RelPermalink -}}
 {{- $jsConfig := dict
     "transparentBackground" ($cfg.transparentBackground | default false)
     "lightTheme"            ($cfg.lightTheme | default "default")
@@ -36,7 +37,7 @@
 {{- with $cfg.curve }}{{ $jsConfig = merge $jsConfig (dict "curve" .) }}{{ end -}}
 {{- with $cfg.logLevel }}{{ $jsConfig = merge $jsConfig (dict "logLevel" .) }}{{ end -}}
 <script type="module">
-import { initMermaidPage } from '{{ $script.RelPermalink }}';
+import { initMermaidPage } from '{{ $scriptURL }}';
 initMermaidPage({{ $jsConfig | jsonify | safeJS }});
 </script>
 {{- end -}}

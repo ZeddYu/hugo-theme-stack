@@ -15,7 +15,8 @@ Params:
     {{- range $widths -}}
         {{- if lt . $resource.Width -}}
             {{- $resized := $resource.Resize (printf "%dx" .) -}}
-            {{- $srcset = $srcset | append (printf "%s %dw" $resized.RelPermalink .) -}}
+            {{- $resizedURL := partial "helper/cdn-url" $resized.RelPermalink -}}
+            {{- $srcset = $srcset | append (printf "%s %dw" $resizedURL .) -}}
         {{- end -}}
     {{- end -}}
     
@@ -24,6 +25,10 @@ Params:
         {{- $srcset = $srcset | append (printf "%s %dw" $permalink $resource.Width) -}}
         {{- $attributes = merge $attributes (dict "srcset" (delimit $srcset ", ")) -}}
     {{- end -}}
+{{- end -}}
+
+{{- with index $attributes "src" -}}
+    {{- $attributes = merge $attributes (dict "src" (partial "helper/cdn-url" .)) -}}
 {{- end -}}
 
 <img {{- range $k, $v := $attributes -}}

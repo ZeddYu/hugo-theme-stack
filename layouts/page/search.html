@@ -26,8 +26,9 @@
 </script>
 
 {{- $opts := dict "minify" hugo.IsProduction "JSXFactory" "createElement" -}}
-{{- $searchScript := resources.Get "ts/search.tsx" | js.Build $opts -}}
-<script type="text/javascript" src="{{ $searchScript.RelPermalink }}" defer></script>
+{{- $searchScript := resources.Get "ts/search.tsx" | js.Build $opts | fingerprint -}}
+{{- $searchScriptURL := partial "helper/cdn-url" $searchScript.RelPermalink -}}
+<script type="text/javascript" src="{{ $searchScriptURL }}" integrity="{{ $searchScript.Data.Integrity }}"{{ if ne $searchScriptURL $searchScript.RelPermalink }} crossorigin="anonymous"{{ end }} defer></script>
 
 {{ partialCached "footer/footer" . }}
 {{ end }}

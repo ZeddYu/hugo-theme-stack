@@ -1,12 +1,13 @@
 {{- $opts := dict "minify" hugo.IsProduction "format" "esm" -}}
 {{- $galleryScript := resources.Get "ts/gallery.ts" | js.Build $opts -}}
+{{- $galleryScriptURL := partial "helper/cdn-url" $galleryScript.RelPermalink -}}
 
 {{ $style := hugo.Data.external.PhotoSwipe.Style }}
 {{ $core := hugo.Data.external.PhotoSwipe.Core }}
 {{ $lightbox := hugo.Data.external.PhotoSwipe.Lightbox }}
 
 <script type="module">
-    import gallery from '{{ $galleryScript.RelPermalink }}';
+    import gallery from '{{ $galleryScriptURL }}';
 
     const articleContent = document.querySelector('.article-content');
     const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);

@@ -1,3 +1,4 @@
 {{ $sass := resources.Get "scss/style.scss" }}
 {{ $style := $sass | toCSS | minify | resources.Fingerprint "sha256" }}
-<link rel="stylesheet" href="{{ $style.RelPermalink }}">
+{{ $styleURL := partial "helper/cdn-url" $style.RelPermalink }}
+<link rel="stylesheet" href="{{ $styleURL }}" integrity="{{ $style.Data.Integrity }}"{{ if ne $styleURL $style.RelPermalink }} crossorigin="anonymous"{{ end }}>

@@ -5,5 +5,6 @@
     {{/* Load the consent manager script */}}
     {{- $opts := dict "minify" hugo.IsProduction -}}
     {{- $script := resources.Get "ts/cookies.ts" | js.Build $opts | fingerprint -}}
-    <script type="text/javascript" src="{{ $script.RelPermalink }}" defer></script>
+    {{- $scriptURL := partial "helper/cdn-url" $script.RelPermalink -}}
+    <script type="text/javascript" src="{{ $scriptURL }}" integrity="{{ $script.Data.Integrity }}"{{ if ne $scriptURL $script.RelPermalink }} crossorigin="anonymous"{{ end }} defer></script>
 {{- end -}}

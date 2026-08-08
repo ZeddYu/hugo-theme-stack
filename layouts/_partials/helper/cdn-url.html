@@ -1,0 +1,9 @@
+{{- $url := printf "%v" . -}}
+{{- $result := $url -}}
+{{- $cdn := strings.TrimSuffix "/" (default "" site.Params.cdn.github) -}}
+{{- $parsed := urls.Parse $url -}}
+{{- if and $cdn $url (not $parsed.Scheme) (not $parsed.Host) -}}
+    {{- $path := strings.TrimPrefix "/" $url -}}
+    {{- $result = printf "%s/%s" $cdn $path -}}
+{{- end -}}
+{{- return $result -}}

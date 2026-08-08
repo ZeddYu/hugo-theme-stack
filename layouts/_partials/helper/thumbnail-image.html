@@ -21,10 +21,11 @@ Params:
         {{- $h := mul $height . -}}
         {{- if and (le $w $resource.Width) (le $h $resource.Height) -}}
             {{- $resized := $resource.Fill (printf "%dx%d" $w $h) -}}
-            {{- $srcset = $srcset | append (printf "%s %dx" $resized.RelPermalink .) -}}
+            {{- $resizedURL := partial "helper/cdn-url" $resized.RelPermalink -}}
+            {{- $srcset = $srcset | append (printf "%s %dx" $resizedURL .) -}}
             
             {{- if eq . 1 -}}
-                {{- $attributes = merge $attributes (dict "src" $resized.RelPermalink) -}}
+                {{- $attributes = merge $attributes (dict "src" $resizedURL) -}}
             {{- end -}}
         {{- end -}}
     {{- end -}}
@@ -32,6 +33,10 @@ Params:
     {{- if gt (len $srcset) 0 -}}
         {{- $attributes = merge $attributes (dict "width" $width "height" $height "srcset" (delimit $srcset ", ")) -}}
     {{- end -}}
+{{- end -}}
+
+{{- with index $attributes "src" -}}
+    {{- $attributes = merge $attributes (dict "src" (partial "helper/cdn-url" .)) -}}
 {{- end -}}
 
 <img {{- range $k, $v := $attributes -}}

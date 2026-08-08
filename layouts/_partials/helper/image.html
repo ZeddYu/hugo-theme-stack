@@ -48,7 +48,7 @@
         {{ end }}
 
         {{ if $local }}
-            {{ $permalink = $resource.RelPermalink }}
+            {{ $permalink = partial "helper/cdn-url" $resource.RelPermalink }}
         {{ end }}
 
         {{ if reflect.IsImageResourceWithMeta $resource }}
