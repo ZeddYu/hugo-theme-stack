@@ -1,5 +1,6 @@
 {{- $IsList := .IsList -}}
 {{- $Page := .Page -}}
+{{- $ArticleListFooter := partial "custom/article-list-footer.html" . -}}
 <div class="article-details">
     {{ if $Page.Params.categories }}
     <header class="article-category">
@@ -33,10 +34,13 @@
     {{ $showTime := or $showDate $showReadingTime }}
     {{ $showTranslations := $Page.IsTranslated }}
     {{ $showTags := and $Page.Site.Params.Article.List.ShowTags ($Page.GetTerms "tags") $IsList }}
+    {{ $showListFooter := and $IsList $ArticleListFooter }}
     
-    {{ if or $showTime $showTranslations $showTags }}
+    {{ if or $showTime $showTranslations $showTags $showListFooter }}
     <footer class="article-meta">
-        {{ if $showTime }}
+        {{ if or $showTime $showListFooter }}
+        <div class="article-meta-row">
+            {{ if $showTime }}
             <div class="inline-meta">
                 {{ if $showDate }}
                     {{ partial "helper/icon" "date" }}
@@ -52,6 +56,10 @@
                     </time>
                 {{ end }}
             </div>
+            {{ end }}
+
+            {{ $ArticleListFooter }}
+        </div>
         {{ end }}
 
         {{ if $showTranslations }}
@@ -73,6 +81,4 @@
         {{ end }}
     </footer>
     {{ end }}
-
-    {{ partial "custom/article-list-footer.html" . }}
 </div>

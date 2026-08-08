@@ -93,7 +93,16 @@
         color: var(--card-text-color-tertiary);
     }
 
-    & > .inline-meta {
+    & > .article-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--spacing-md);
+    }
+
+    & > .inline-meta,
+    & > .article-meta-row > .inline-meta {
         display: inline-flex;
         flex-wrap: wrap;
         align-items: center;
