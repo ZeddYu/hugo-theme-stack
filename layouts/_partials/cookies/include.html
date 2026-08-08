@@ -1,0 +1,10 @@
+{{- if .Site.Params.cookies.enabled -}}
+    {{/* Render the banner HTML */}}
+    {{ partial "cookies/banner.html" . }}
+
+    {{/* Load the consent manager script */}}
+    {{- $opts := dict "minify" hugo.IsProduction -}}
+    {{- $script := resources.Get "ts/cookies.ts" | js.Build $opts | fingerprint -}}
+    {{- $scriptURL := partial "helper/cdn-url" $script.RelPermalink -}}
+    <script type="text/javascript" src="{{ $scriptURL }}" integrity="{{ $script.Data.Integrity }}"{{ if ne $scriptURL $script.RelPermalink }} crossorigin="anonymous"{{ end }} defer></script>
+{{- end -}}

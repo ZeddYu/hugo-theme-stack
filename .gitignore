@@ -2,5 +2,3 @@ public
 resources
 assets/jsconfig.json
 .hugo_build.lock
-exampleSite
-config.yaml

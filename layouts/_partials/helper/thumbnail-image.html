@@ -1,0 +1,46 @@
+{{- /*
+Params:
+    Resource: Hugo image resource object (Optional, for processing)
+    Width: Image width (Required)
+    Height: Image height (Required)
+    Resize: Whether to perform resize (Optional, default: false)
+    Attributes: Map of HTML attributes for the <img> tag
+*/ -}}
+
+{{- $resource := .Resource -}}
+{{- $width := .Width -}}
+{{- $height := .Height -}}
+{{- $resize := .Resize -}}
+{{- $attributes := .Attributes | default dict -}}
+
+{{- if and $resize $resource (reflect.IsImageResourceProcessable $resource) $width $height -}}
+    {{/* Create thumbnail with 1x/2x descriptors */}}
+    {{- $srcset := slice -}}
+    {{- range (slice 1 2) -}}
+        {{- $w := mul $width . -}}
+        {{- $h := mul $height . -}}
+        {{- if and (le $w $resource.Width) (le $h $resource.Height) -}}
+            {{- $resized := $resource.Fill (printf "%dx%d" $w $h) -}}
+            {{- $resizedURL := partial "helper/cdn-url" $resized.RelPermalink -}}
+            {{- $srcset = $srcset | append (printf "%s %dx" $resizedURL .) -}}
+            
+            {{- if eq . 1 -}}
+                {{- $attributes = merge $attributes (dict "src" $resizedURL) -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+    
+    {{- if gt (len $srcset) 0 -}}
+        {{- $attributes = merge $attributes (dict "width" $width "height" $height "srcset" (delimit $srcset ", ")) -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with index $attributes "src" -}}
+    {{- $attributes = merge $attributes (dict "src" (partial "helper/cdn-url" .)) -}}
+{{- end -}}
+
+<img {{- range $k, $v := $attributes -}}
+    {{- if $v -}}
+        {{- printf " %s=%q" (lower $k) (printf "%v" $v) | safeHTMLAttr -}}
+    {{- end -}}
+{{- end -}}>

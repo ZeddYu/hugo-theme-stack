@@ -1,0 +1,20 @@
+{{- $opts := dict
+    "minify" hugo.IsProduction
+    "params" (dict
+        "codeblock" (dict
+            "copy" (i18n "article.codeblock.copy")
+            "copied" (i18n "article.codeblock.copied")
+        )
+    )
+-}}
+{{- $script := resources.Get "ts/main.ts" | js.Build $opts | fingerprint -}}
+{{- $scriptURL := partial "helper/cdn-url" $script.RelPermalink -}}
+
+<script type="text/javascript" src="{{ $scriptURL }}" integrity="{{ $script.Data.Integrity }}"{{ if ne $scriptURL $script.RelPermalink }} crossorigin="anonymous"{{ end }} defer></script>
+
+{{- with resources.Get "ts/custom.ts" -}}
+    {{/* Place your custom script in HUGO_SITE_FOLDER/assets/ts/custom.ts */}}
+    {{- $customScript := . | js.Build $opts | fingerprint -}}
+    {{- $customScriptURL := partial "helper/cdn-url" $customScript.RelPermalink -}}
+    <script type="text/javascript" src="{{ $customScriptURL }}" integrity="{{ $customScript.Data.Integrity }}"{{ if ne $customScriptURL $customScript.RelPermalink }} crossorigin="anonymous"{{ end }} defer></script>
+{{- end -}}

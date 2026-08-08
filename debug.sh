@@ -1,1 +1,0 @@
-cd exampleSite && hugo server --gc --themesDir=../..  --bind=0.0.0.0 --port=41125 -w -D --disableFastRender

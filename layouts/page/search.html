@@ -16,7 +16,7 @@
     </button>
 </form>
 
-<div class="search-result">
+<div class="search-result hidden">
     <h3 class="search-result--title section-title"></h3>
     <div class="search-result--list article-list--compact"></div>
 </div>
@@ -27,13 +27,8 @@
 
 {{- $opts := dict "minify" hugo.IsProduction "JSXFactory" "createElement" -}}
 {{- $searchScript := resources.Get "ts/search.tsx" | js.Build $opts | fingerprint -}}
-{{- $searchScriptWithoutHash := resources.Get "ts/search.tsx" | js.Build $opts | fingerprint -}}
-
-{{ if .Site.Params.cdn.github}}
-    <script type="text/javascript" src="{{ printf "%s/%s" .Site.Params.cdn.github $searchScriptWithoutHash.RelPermalink }}" defer integrity="{{ $searchScript.Data.Integrity}}" crossorigin="anonymous"></script>
-{{ else }}
-    <script type="text/javascript" src="{{ $searchScriptWithoutHash.RelPermalink }}" defer integrity="{{ $searchScript.Data.Integrity}}"></script>
-{{ end }}
+{{- $searchScriptURL := partial "helper/cdn-url" $searchScript.RelPermalink -}}
+<script type="text/javascript" src="{{ $searchScriptURL }}" integrity="{{ $searchScript.Data.Integrity }}"{{ if ne $searchScriptURL $searchScript.RelPermalink }} crossorigin="anonymous"{{ end }} defer></script>
 
 {{ partialCached "footer/footer" . }}
 {{ end }}
